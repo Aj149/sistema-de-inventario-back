@@ -34,6 +34,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
 # lo que hace es que le dice q dentro de router.urls busque entre product, provincias, suppliers etc.. y que complete en api/
-    path('api/', include(router.urls)),
+    path('', include(router.urls)),
 ]
 
