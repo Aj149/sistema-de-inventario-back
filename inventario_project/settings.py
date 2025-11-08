@@ -158,5 +158,3 @@ AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazo
 
 MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-
-print(f"INFO: Usando S3 bucket '{AWS_STORAGE_BUCKET_NAME}' para media.")
