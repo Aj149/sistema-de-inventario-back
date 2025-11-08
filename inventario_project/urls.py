@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from common.views import CantonViewSet, ProvinciaViewSet
-
+from django.conf.urls.static import static
 from products.views import ProductViewSet
 from suppliers.views import SupplierViewSet
 

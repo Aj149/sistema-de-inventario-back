@@ -1,4 +1,7 @@
-import os  # (Asegúrate de que 'import os' esté al inicio del archivo)
+
+from decouple import config
+from pathlib import Path
+
 """
 Django settings for inventario_project project.
 
@@ -11,7 +14,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -87,7 +89,7 @@ WSGI_APPLICATION = 'inventario_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-from decouple import config
+
 
 DATABASES = {
     'default': {
@@ -143,43 +145,18 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# settings.py
+# settings.py (al final del archivo)
 
-# inventario_project/settings.py
 
-# ... (todo tu settings.py) ...
+AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME", "us-east-2")
 
-# --- CONFIGURACIÓN DE AWS S3 PARA MEDIA (IMÁGENES) ---
-# 
-# Lee las variables de entorno que configuraste en el Paso 2
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME')
+AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
 
-if AWS_STORAGE_BUCKET_NAME:  # Solo activa S3 si las variables están puestas
-    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-    
-    # No sobrescribir archivos con el mismo nombre (más seguro)
-    AWS_S3_FILE_OVERWRITE = False
-    
-    # --- Configuración Principal ---
-    
-    # 1. Esto le dice a Django que use S3 para CUALQUIER
-    #    subida de archivos (ej. en un ImageField de un modelo).
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    
-    # 2. La URL base que se guardará en tu base de datos
-    #    (Tus imágenes vivirán en una carpeta llamada "media/" dentro del bucket)
-    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
-    
-    # (Opcional, pero recomendado) Control de caché para las imágenes
-    AWS_S3_OBJECT_PARAMETERS = {
-        'CacheControl': 'max-age=86400',
-    }
-else:
-    # Configuración local (si no hay variables de AWS)
-    # Django usará la carpeta "media" en tu proyecto local
-    MEDIA_URL = '/media/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    
-    
+MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+print(f"INFO: Usando S3 bucket '{AWS_STORAGE_BUCKET_NAME}' para media.")

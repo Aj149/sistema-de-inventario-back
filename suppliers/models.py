@@ -40,11 +40,17 @@ class Supplier(models.Model):
     
     # 4informacion bancaria
     tipo_banco = models.CharField(max_length=150, null=True)
-    estado = models.BooleanField(default=True)
-    observaciones = models.CharField(max_length=150)
+    tipo_cuenta = models.CharField(max_length=100,null=True, blank=True)
+    num_cuenta = models.CharField(max_length=100,null=True, blank=True)
+    dueno_cuenta = models.CharField(max_length=250, null=True, blank=True)
+    cedula_ruc_dueno = models.CharField(max_length=13, null=True, blank=True)
+
+    rubro = models.CharField(max_length=150, null=True, blank=True)
+    estado = models.CharField(max_length=50,null=True, blank=True)
+    observaciones = models.CharField(max_length=150,null=True, blank=True)
     
     # 4imagen de la empresa
-    imagen = models.ImageField(upload_to='proveedores/', blank=True, null=True)
+    imagen = models.ImageField(upload_to='test/', blank=True, null=True)
     
     
     
