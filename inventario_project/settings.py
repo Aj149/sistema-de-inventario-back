@@ -152,9 +152,36 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
 AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME", "us-east-2")
+AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME")
+AWS_DEFAULT_ACL = None
+AWS_QUERYSTRING_AUTH = False 
+AWS_S3_FILE_OVERWRITE=False
 
-AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
 
-MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "bucket_name": AWS_STORAGE_BUCKET_NAME,
+            "region_name": AWS_S3_REGION_NAME,
+            "access_key": AWS_ACCESS_KEY_ID,
+            "secret_key": AWS_SECRET_ACCESS_KEY,
+            "default_acl": AWS_DEFAULT_ACL,
+            "querystring_auth": AWS_QUERYSTRING_AUTH,
+            "file_overwrite": AWS_S3_FILE_OVERWRITE,
+        },
+    },
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "bucket_name": AWS_STORAGE_BUCKET_NAME,
+            "region_name": AWS_S3_REGION_NAME,
+            "access_key": AWS_ACCESS_KEY_ID,
+            "secret_key": AWS_SECRET_ACCESS_KEY,
+            "default_acl": AWS_DEFAULT_ACL,
+            "querystring_auth": AWS_QUERYSTRING_AUTH,
+            "file_overwrite": AWS_S3_FILE_OVERWRITE,
+        },
+    },
+}

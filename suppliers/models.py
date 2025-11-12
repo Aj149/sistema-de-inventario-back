@@ -50,7 +50,7 @@ class Supplier(models.Model):
     observaciones = models.CharField(max_length=150,null=True, blank=True)
     
     # 4imagen de la empresa
-    imagen = models.ImageField(upload_to='test/', blank=True, null=True)
+    imagen = models.ImageField(upload_to='proveedores/', blank=True, null=True)
     
     
     
