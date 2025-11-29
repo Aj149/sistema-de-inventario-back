@@ -12,7 +12,7 @@ class Product(models.Model):
     ESTADO_CHOICES = [
     ("NORMAL", "Normal"),
     ("BAJO", "Bajo"),
-    ("SIN_STOCK", "Sin Stock"),
+    ("VACIO", "Sin Stock"),
     ]
     estado = models.CharField(max_length=20,choices=ESTADO_CHOICES,default="NORMAL")
     # imagen al S3
